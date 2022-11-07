@@ -29,7 +29,7 @@ const onDone = () => {
       ERROR ❌
       
         source: ${source[i]}
-        yours: ${target[i]}
+         yours: ${target[i]}
       `);
 
       break;
@@ -102,6 +102,8 @@ li {
   overflow: hidden;
   transition: height 0.3s ease-in-out;
   background-color: #f6f6f6;
+  display: flex;
+  flex-direction: column;
 }
 
 .editor span {
@@ -123,12 +125,13 @@ li {
   resize: none;
   width: calc(100% - 40px);
   border: 1px solid #ddd;
-  height: calc(100% - 120px);
   outline: none;
   padding: 20px;
   margin: 0 auto;
   border-radius: 10px;
   font-size: 20px;
+  flex: 1;
+  margin-bottom: 20px;
 }
 
 .editor .action {
