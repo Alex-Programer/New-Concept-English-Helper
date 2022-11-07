@@ -4,13 +4,13 @@ import list from './article.json'
 
 const edit = ref(false);
 const item = ref(null);
-const value = ref('');
+const value = ref(`Last week I went to the theatre. I had a very good seat. The play was very interesting. I did not enjoy it. A young man and a young woman were sitting behind me. They were talking loudly. I got very angry. I could not hear the actors. I turned round. I looked at the man and the woman angrily. They did not pay any attention. In the end, I could not bear it. I turned round again. 'I can't hear a word!' I said angrily. 'It's none of your business,' the young man said rudely. 'This is a private conversation!' `);
 
 const scroll = e => {
   edit.value && e.preventDefault();
 }
 
-const editorHeight = computed(() => edit.value ? '100vh' : '0');
+const editorHeight = computed(() => edit.value ? '100%' : '0');
 
 const onEdit = selectItem => {
   item.value = selectItem;
@@ -50,7 +50,7 @@ const onDone = () => {
         <div v-if="item">{{ item.title }}</div>
         <span class="done" @click="onDone">DONE</span>
       </div>
-      <textarea v-model="value" />
+      <textarea v-model="value" @touchmove.stop @wheel.stop />
     </div>
   </ul>
 </template>
@@ -59,7 +59,7 @@ const onDone = () => {
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 html,
@@ -129,9 +129,10 @@ li {
   padding: 20px;
   margin: 0 auto;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
   flex: 1;
   margin-bottom: 20px;
+  line-height: 30px;
 }
 
 .editor .action {
