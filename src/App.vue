@@ -4,7 +4,7 @@ import list from './article.json'
 
 const edit = ref(false);
 const item = ref(null);
-const value = ref(`Last week I went to the theatre. I had a very good seat. The play was very interesting. I did not enjoy it. A young man and a young woman were sitting behind me. They were talking loudly. I got very angry. I could not hear the actors. I turned round. I looked at the man and the woman angrily. They did not pay any attention. In the end, I could not bear it. I turned round again. 'I can't hear a word!' I said angrily. 'It's none of your business,' the young man said rudely. 'This is a private conversation!' `);
+const value = ref("");
 
 const scroll = e => {
   edit.value && e.preventDefault();
@@ -42,8 +42,8 @@ const onDone = () => {
 
 <template>
   <ul @touchmove="scroll" @wheel="scroll">
-    <li v-for="item in list" @click="onEdit(item)">
-      {{ item.title }}</li>
+    <li v-for="(item, i) in list" @click="onEdit(item)">
+      Lesson {{ i + 1 }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.title }}</li>
     <div class="editor">
       <div class="action">
         <span @click="edit = false">🔙</span>
@@ -85,7 +85,7 @@ li {
   list-style: none;
   border: 1px solid #fff;
   box-shadow: 0 0 10px #ddd;
-  padding: 40px;
+  padding: 20px;
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 40px;
