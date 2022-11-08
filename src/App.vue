@@ -19,7 +19,7 @@ const onEdit = selectItem => {
   edit.value = true;
 }
 
-const formatContent = target => target.replace(/(|\'|\!|")/g, '').replace(/\s+/g, ' ').split('.').map(item => item.trim(''))
+const formatContent = target => target.replace(/('|\!|")/g, '').replace(/\s+/g, ' ').split('.').map(item => item.trim(''))
 
 const onDone = () => {
   const source = formatContent(item.value.content);
@@ -38,7 +38,6 @@ const onDone = () => {
       break;
     } else if (i === source.length - 1) {
       alert('🎉 Congratulations!');
-      value.value = '';
     }
   }
 }
