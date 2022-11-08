@@ -37,6 +37,7 @@ const onDone = () => {
       break;
     } else if (i === source.length - 1) {
       alert('🎉 Congratulations!');
+      value.value = '';
     }
   }
 }
@@ -84,7 +85,7 @@ const onEnter = () => {
         <div v-if="item">{{ item.title }}</div>
         <span class="done" @click="onDone">DONE</span>
       </div>
-      <textarea ref="textareaRef" v-model="value" @touchmove.stop @wheel.stop @keydown.stop.enter="onEnter" />
+      <textarea ref="textareaRef" v-model="value" @touchmove.stop @wheel.stop @keydown.prevent.stop.enter="onEnter" />
     </div>
   </ul>
   <div tabindex="0" class="dialog" :class="{ active: error.wrong }" @touchstart="error.wrong = false"
