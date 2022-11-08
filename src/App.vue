@@ -41,9 +41,6 @@ const onDone = () => {
   }
 }
 
-const onTransitionend = () => {
-  value.value = '';
-}
 
 watch(edit, (val) => {
   if (val) {
@@ -81,7 +78,7 @@ const onEnter = () => {
   <ul @touchmove="scroll" @wheel="scroll">
     <li v-for="(item, i) in list" @click="onEdit(item)">
       Lesson {{ i + 1 }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.title }}</li>
-    <div class="editor" @transitionend="onTransitionend">
+    <div class="editor">
       <div class="action">
         <span @click="edit = false">🔙</span>
         <div v-if="item">{{ item.title }}</div>
@@ -108,10 +105,16 @@ const onEnter = () => {
 </template>
 
 <style>
+@font-face {
+  font-family: verdanai;
+  src: url("/font/Verdana-1.ttf") format('truetype');
+}
+
+
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: verdanai;
 }
 
 html,
