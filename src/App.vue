@@ -19,7 +19,7 @@ const onEdit = selectItem => {
   edit.value = true;
 }
 
-const formatContent = target => target.replace(/(\'|\!|")/g, '').split('.').map(item => item.trim(''))
+const formatContent = target => target.replace(/('|\!|")/g, '').replace(/\s+/g, ' ').split('.').map(item => item.trim(''))
 
 const onDone = () => {
   const source = formatContent(item.value.content);
@@ -32,7 +32,8 @@ const onDone = () => {
         source: source[i],
         yours: target[i]
       };
-      console.warn(source[i], target[i]);
+      console.log(source[i]);
+      console.log(target[i]);
       textareaRef.value.blur();
       break;
     } else if (i === source.length - 1) {
@@ -41,9 +42,6 @@ const onDone = () => {
   }
 }
 
-const onTransitionend = () => {
-  value.value = '';
-}
 
 watch(edit, (val) => {
   if (val) {
@@ -81,13 +79,13 @@ const onEnter = () => {
   <ul @touchmove="scroll" @wheel="scroll">
     <li v-for="(item, i) in list" @click="onEdit(item)">
       Lesson {{ i + 1 }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.title }}</li>
-    <div class="editor" @transitionend="onTransitionend">
+    <div class="editor">
       <div class="action">
         <span @click="edit = false">🔙</span>
         <div v-if="item">{{ item.title }}</div>
         <span class="done" @click="onDone">DONE</span>
       </div>
-      <textarea ref="textareaRef" v-model="value" @touchmove.stop @wheel.stop @keydown.stop.enter="onEnter" />
+      <textarea ref="textareaRef" v-model="value" @touchmove.stop @wheel.stop @keydown.prevent.stop.enter="onEnter" />
     </div>
   </ul>
   <div tabindex="0" class="dialog" :class="{ active: error.wrong }" @touchstart="error.wrong = false"
@@ -108,10 +106,16 @@ const onEnter = () => {
 </template>
 
 <style>
+@font-face {
+  font-family: verdanai;
+  src: url("/font/Verdana-1.ttf") format('truetype');
+}
+
+
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: verdanai;
 }
 
 html,
@@ -222,10 +226,11 @@ td {
 }
 
 .dialog table {
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   background-color: #fff;
   border-spacing: 0px;
+  margin: 10px;
 }
 
 td {
