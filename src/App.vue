@@ -227,10 +227,11 @@ td {
 }
 
 .dialog table {
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   background-color: #fff;
   border-spacing: 0px;
+  margin: 10px;
 }
 
 td {
