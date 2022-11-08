@@ -19,7 +19,7 @@ const onEdit = selectItem => {
   edit.value = true;
 }
 
-const formatContent = target => target.replace(/(\'|\!|")/g, '').split('.').map(item => item.trim(''))
+const formatContent = target => target.replace(/(|\'|\!|")/g, '').replace(/\s+/g, ' ').split('.').map(item => item.trim(''))
 
 const onDone = () => {
   const source = formatContent(item.value.content);
@@ -32,7 +32,8 @@ const onDone = () => {
         source: source[i],
         yours: target[i]
       };
-      console.warn(source[i], target[i]);
+      console.log(source[i]);
+      console.log(target[i]);
       textareaRef.value.blur();
       break;
     } else if (i === source.length - 1) {
