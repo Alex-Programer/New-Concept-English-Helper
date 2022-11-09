@@ -1,3 +1,3 @@
-# 新概念英语助手
+# 新概念英语第二册助手
 
-![alt logo](https://raw.githubusercontent.com/Alex-Programer/New-Concept-English-Helper/master/public/icon-192x192.png) 
+![alt logo](https://raw.githubusercontent.com/Alex-Programer/New-Concept-English-Helper/master/public/icon-192x192.png)
