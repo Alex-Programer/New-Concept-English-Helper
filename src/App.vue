@@ -1,12 +1,14 @@
 <script setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import list from './article.json'
+import { useSelected } from './useSelected'
 
 const edit = ref(false);
 const item = ref(null);
 const value = ref("");
 const textareaRef = ref(null)
 const error = ref({ wrong: false, source: 'the young man said rudel', yours: 'the young man said rudel' })
+const { index } = useSelected();
 
 const scroll = e => {
   edit.value && e.preventDefault();
@@ -32,8 +34,6 @@ const onDone = () => {
         source: source[i],
         yours: target[i]
       };
-      console.log(source[i]);
-      console.log(target[i]);
       textareaRef.value.blur();
       break;
     } else if (i === source.length - 1) {
@@ -48,6 +48,8 @@ watch(edit, (val) => {
     nextTick(() => {
       textareaRef.value.focus();
     })
+  } else {
+    textareaRef.value.blur();
   }
 });
 
@@ -102,7 +104,7 @@ const onNext = () => {
 
 <template>
   <ul @touchmove="scroll" @wheel="scroll">
-    <li v-for="(item, i) in list" @click="onEdit(item)">
+    <li v-for="(item, i) in list" @click="onEdit(item)" :class="{ selected: index === i }">
       Lesson {{ i + 1 }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.title }}</li>
     <div class="editor">
       <div class="action">
@@ -175,6 +177,11 @@ li {
   cursor: pointer;
   margin-bottom: 40px;
   user-select: none;
+  transition: all 0.1s linear;
+}
+
+li.selected {
+  transform: scale(1.08);
 }
 
 .editor {
