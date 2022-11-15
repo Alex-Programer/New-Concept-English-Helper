@@ -8,7 +8,7 @@ const item = ref(null);
 const value = ref("");
 const textareaRef = ref(null)
 const error = ref({ wrong: false, source: 'the young man said rudel', yours: 'the young man said rudel' })
-const { index } = useSelected();
+const { index } = useSelected(edit);
 
 const scroll = e => {
   edit.value && e.preventDefault();
