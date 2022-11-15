@@ -73,6 +73,31 @@ onMounted(() => {
 const onEnter = () => {
   if (edit.value) onDone();
 }
+
+const getItemIndex = () => list.findIndex(v => v.title === item.value.title);
+
+const onPrev = () => {
+  let i = getItemIndex();
+  i--;
+
+  if (list[i]) {
+    item.value = list[i];
+  } else {
+    item.value = list[list.length - 1];
+  }
+}
+
+const onNext = () => {
+  let i = getItemIndex();
+  i++;
+
+  if (list[i]) {
+    item.value = list[i];
+  } else {
+    item.value = list[0];
+  }
+}
+
 </script>
 
 <template>
@@ -86,6 +111,10 @@ const onEnter = () => {
         <span class="done" @click="onDone">DONE</span>
       </div>
       <textarea ref="textareaRef" v-model="value" @touchmove.stop @wheel.stop @keydown.prevent.stop.enter="onEnter" />
+      <div class="pagation">
+        <span @click="onPrev">⬅️</span>
+        <span @click="onNext">➡️</span>
+      </div>
     </div>
   </ul>
   <div tabindex="0" class="dialog" :class="{ active: error.wrong }" @touchstart="error.wrong = false"
@@ -187,7 +216,7 @@ li {
   border-radius: 10px;
   font-size: 18px;
   flex: 1;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   line-height: 30px;
 }
 
@@ -239,5 +268,19 @@ td {
 
 .wrong-row {
   color: red;
+}
+
+.pagation {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.pagation span {
+  background-color: transparent;
+  margin: 0;
+  width: auto;
+  height: auto;
+  line-height: 1;
 }
 </style>
