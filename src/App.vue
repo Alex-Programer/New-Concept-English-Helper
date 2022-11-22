@@ -178,6 +178,10 @@ body,
 ul {
   height: 100%;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
 </style>
 
 <style scoped>
