@@ -132,10 +132,9 @@ const onNext = () => {
       <div class="action">
         <span @click="edit = false">🔙</span>
         <div v-if="item">{{ item.title }}</div>
-        <span class="done" @click="onDone">DONE</span>
+        <span :class="{ hide: readonly }" class="done" @click="onDone">DONE</span>
       </div>
-      <textarea :readonly="readonly" ref="textareaRef" v-model="value" @touchmove.stop
-        @keydown.prevent.stop.enter="onEnter" />
+      <textarea :readonly="readonly" ref="textareaRef" v-model="value" @keydown.prevent.stop.enter="onEnter" />
       <div class="pagation">
         <span @click="onPrev">⬅️</span>
         <span @click="onNext">➡️</span>
@@ -214,10 +213,10 @@ li span:last-child {
   float: right;
   background-color: #d2d1ff;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   text-align: center;
-  line-height: 30px;
+  line-height: 40px;
 }
 
 
@@ -283,6 +282,10 @@ li.selected {
   font-weight: bold;
 }
 
+.editor .done.hide {
+  visibility: hidden;
+}
+
 .dialog {
   position: fixed;
   left: 0;
@@ -332,5 +335,10 @@ td {
   width: auto;
   height: auto;
   line-height: 1;
+}
+
+textarea[readonly] {
+  background: transparent;
+  border-color: transparent;
 }
 </style>
