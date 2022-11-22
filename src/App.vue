@@ -11,10 +11,6 @@ const error = ref({ wrong: false, source: 'the young man said rudel', yours: 'th
 const { index } = useSelected(edit);
 const readonly = ref(false);
 
-const scroll = e => {
-  edit.value && e.preventDefault();
-}
-
 const editorHeight = computed(() => edit.value ? '100%' : '0');
 
 const onEdit = selectItem => {
@@ -120,27 +116,38 @@ const onNext = () => {
   setReadonlyContent();
 }
 
+const onToggleReadonly = () => {
+  if (readonly.value) {
+    value.value = '';
+    textareaRef.value.focus();
+  } else {
+    value.value = item.value.content;
+  }
+
+  readonly.value = !readonly.value;
+}
 </script>
 
 <template>
-  <ul @touchmove="scroll" @wheel="scroll">
+  <ul @touchmove="scroll">
     <li v-for="(item, i) in list" @click="onEdit(item)" :class="{ selected: index === i }">
       <span>Lesson {{ i + 1 }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.title }}</span>
       <span @click.stop="onRead(item)">📖</span>
     </li>
-    <div class="editor">
-      <div class="action">
-        <span @click="edit = false">🔙</span>
-        <div v-if="item">{{ item.title }}</div>
-        <span :class="{ hide: readonly }" class="done" @click="onDone">DONE</span>
-      </div>
-      <textarea :readonly="readonly" ref="textareaRef" v-model="value" @keydown.prevent.stop.enter="onEnter" />
-      <div class="pagation">
-        <span @click="onPrev">⬅️</span>
-        <span @click="onNext">➡️</span>
-      </div>
-    </div>
   </ul>
+  <div class="editor">
+    <div class="action">
+      <span @click="edit = false">🔙</span>
+      <div v-if="item">{{ item.title }}</div>
+      <span :class="{ hide: readonly }" class="done" @click="onDone">DONE</span>
+    </div>
+    <textarea :readonly="readonly" ref="textareaRef" v-model="value" @keydown.prevent.stop.enter="onEnter" />
+    <div class="pagation">
+      <span @click="onPrev">⬅️</span>
+      <span v-if="edit" @click="onToggleReadonly">{{ readonly ? '✏️' : '📖' }} </span>
+      <span @click="onNext">➡️</span>
+    </div>
+  </div>
   <div tabindex="0" class="dialog" :class="{ active: error.wrong }" @touchstart="error.wrong = false"
     @keydown.enter="error.wrong = false">
     <table border>
@@ -217,6 +224,7 @@ li span:last-child {
   height: 40px;
   text-align: center;
   line-height: 40px;
+  font-size: 20px;
 }
 
 
@@ -267,6 +275,7 @@ li.selected {
   flex: 1;
   margin-bottom: 0;
   line-height: 30px;
+  transition: all 0.3s linear;
 }
 
 .editor .action {
@@ -335,6 +344,10 @@ td {
   width: auto;
   height: auto;
   line-height: 1;
+}
+
+.pagation span:nth-child(2) {
+  transform: rotateY(180deg);
 }
 
 textarea[readonly] {
