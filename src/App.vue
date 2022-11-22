@@ -9,6 +9,7 @@ const value = ref("");
 const textareaRef = ref(null)
 const error = ref({ wrong: false, source: 'the young man said rudel', yours: 'the young man said rudel' })
 const { index } = useSelected(edit);
+const readonly = ref(false);
 
 const scroll = e => {
   edit.value && e.preventDefault();
@@ -19,6 +20,13 @@ const editorHeight = computed(() => edit.value ? '100%' : '0');
 const onEdit = selectItem => {
   item.value = selectItem;
   edit.value = true;
+}
+
+const onRead = (selectItem) => {
+  readonly.value = true;
+  edit.value = true;
+  item.value = selectItem;
+  value.value = selectItem.content;
 }
 
 const formatContent = target => target.replace(/('|\!|")/g, '').replace(/\s+/g, ' ').split('.').map(item => item.trim(''))
@@ -50,6 +58,8 @@ watch(edit, (val) => {
     })
   } else {
     textareaRef.value.blur();
+    readonly.value = false;
+    value.value = '';
   }
 });
 
@@ -78,6 +88,12 @@ const onEnter = () => {
 
 const getItemIndex = () => list.findIndex(v => v.title === item.value.title);
 
+const setReadonlyContent = () => {
+  if (readonly.value && edit.value) {
+    value.value = item.value.content;
+  }
+}
+
 const onPrev = () => {
   let i = getItemIndex();
   i--;
@@ -87,6 +103,8 @@ const onPrev = () => {
   } else {
     item.value = list[list.length - 1];
   }
+
+  setReadonlyContent();
 }
 
 const onNext = () => {
@@ -98,6 +116,8 @@ const onNext = () => {
   } else {
     item.value = list[0];
   }
+
+  setReadonlyContent();
 }
 
 </script>
@@ -105,14 +125,17 @@ const onNext = () => {
 <template>
   <ul @touchmove="scroll" @wheel="scroll">
     <li v-for="(item, i) in list" @click="onEdit(item)" :class="{ selected: index === i }">
-      Lesson {{ i + 1 }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.title }}</li>
+      <span>Lesson {{ i + 1 }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.title }}</span>
+      <span @click.stop="onRead(item)">📖</span>
+    </li>
     <div class="editor">
       <div class="action">
         <span @click="edit = false">🔙</span>
         <div v-if="item">{{ item.title }}</div>
         <span class="done" @click="onDone">DONE</span>
       </div>
-      <textarea ref="textareaRef" v-model="value" @touchmove.stop @wheel.stop @keydown.prevent.stop.enter="onEnter" />
+      <textarea :readonly="readonly" ref="textareaRef" v-model="value" @touchmove.stop
+        @keydown.prevent.stop.enter="onEnter" />
       <div class="pagation">
         <span @click="onPrev">⬅️</span>
         <span @click="onNext">➡️</span>
@@ -178,7 +201,21 @@ li {
   margin-bottom: 40px;
   user-select: none;
   transition: all 0.1s linear;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+li span:last-child {
+  float: right;
+  background-color: #d2d1ff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+
 
 li.selected {
   transform: scale(1.08);
@@ -210,6 +247,8 @@ li.selected {
   font-size: 30px;
   margin: 20px;
 }
+
+
 
 .editor textarea {
   display: block;
