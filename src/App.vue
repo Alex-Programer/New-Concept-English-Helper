@@ -295,6 +295,7 @@ li.selected {
 
 .editor .action div {
   flex: 1;
+  text-align: center;
 }
 
 .editor .done {
