@@ -196,7 +196,7 @@ ul {
   max-width: 600px;
   margin: 0 auto;
   overflow: auto;
-  padding: 40px 40px 0 40px;
+  padding: 20px 20px 0 20px;
   box-sizing: border-box;
 }
 
@@ -214,6 +214,10 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+li:span:first-child {
+  flex: 1;
 }
 
 li span:last-child {
