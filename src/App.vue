@@ -289,6 +289,14 @@ li.selected {
   user-select: none;
 }
 
+.editor .action span {
+  width: 60px;
+}
+
+.editor .action div {
+  flex: 1;
+}
+
 .editor .done {
   right: 0;
   font-size: 18px;
